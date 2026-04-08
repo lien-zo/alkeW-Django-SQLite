@@ -1,0 +1,17 @@
+{% extends 'wallet/base.html' %}
+
+{% block title %}Transaccion | Alke Wallet{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 720px; margin: 0 auto;">
+    <h2>{{ transaction.get_transaction_type_display }}</h2>
+    <p><strong>Cliente:</strong> <a href="{% url 'wallet:customer_detail' transaction.customer.pk %}">{{ transaction.customer }}</a></p>
+    <p><strong>Monto:</strong> ${{ transaction.amount }}</p>
+    <p><strong>Descripcion:</strong> {{ transaction.description|default:'Sin descripcion' }}</p>
+    <p><strong>Fecha:</strong> {{ transaction.created_at|date:'d/m/Y H:i' }}</p>
+    <div class="actions">
+        <a class="button" href="{% url 'wallet:transaction_update' transaction.pk %}">Editar transaccion</a>
+        <a class="button danger" href="{% url 'wallet:transaction_delete' transaction.pk %}">Eliminar transaccion</a>
+    </div>
+</section>
+{% endblock %}

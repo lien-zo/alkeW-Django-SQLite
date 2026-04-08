@@ -1,0 +1,17 @@
+{% extends 'wallet/base.html' %}
+
+{% block title %}Eliminar transaccion | Alke Wallet{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 720px; margin: 0 auto;">
+    <h2>Eliminar transaccion</h2>
+    <p>Se eliminara la transaccion <strong>{{ object.get_transaction_type_display }}</strong> por ${{ object.amount }}.</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="actions">
+            <button class="danger" type="submit">Confirmar eliminacion</button>
+            <a class="button" href="{% url 'wallet:transaction_detail' object.pk %}">Cancelar</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

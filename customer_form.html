@@ -1,0 +1,17 @@
+{% extends 'wallet/base.html' %}
+
+{% block title %}Formulario de cliente | Alke Wallet{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 720px; margin: 0 auto;">
+    <h2>{% if object %}Editar cliente{% else %}Crear cliente{% endif %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="actions">
+            <button type="submit">Guardar</button>
+            <a class="button" href="{% url 'wallet:customer_list' %}">Cancelar</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'wallet/base.html' %}
+
+{% block title %}Clientes | Alke Wallet{% endblock %}
+
+{% block content %}
+<section class="card">
+    <div class="topbar" style="margin-bottom: 1rem;">
+        <div>
+            <h2 style="margin: 0;">Clientes</h2>
+            <p>Listado de clientes persistidos en SQLite.</p>
+        </div>
+        <a class="button button-primary" href="{% url 'wallet:customer_create' %}">Crear cliente</a>
+    </div>
+    {% if customers %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Telefono</th>
+                    <th>Saldo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                    <tr>
+                        <td><a href="{% url 'wallet:customer_detail' customer.pk %}">{{ customer }}</a></td>
+                        <td>{{ customer.email }}</td>
+                        <td>{{ customer.phone|default:'-' }}</td>
+                        <td>${{ customer.balance }}</td>
+                        <td>
+                            <a href="{% url 'wallet:customer_update' customer.pk %}">Editar</a> |
+                            <a href="{% url 'wallet:customer_delete' customer.pk %}">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="empty">No hay clientes creados todavia.</p>
+    {% endif %}
+</section>
+{% endblock %}

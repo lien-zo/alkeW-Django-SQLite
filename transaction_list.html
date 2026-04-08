@@ -1,0 +1,46 @@
+{% extends 'wallet/base.html' %}
+
+{% block title %}Transacciones | Alke Wallet{% endblock %}
+
+{% block content %}
+<section class="card">
+    <div class="topbar" style="margin-bottom: 1rem;">
+        <div>
+            <h2 style="margin: 0;">Transacciones</h2>
+            <p>Operaciones registradas mediante el ORM de Django.</p>
+        </div>
+        <a class="button button-primary" href="{% url 'wallet:transaction_create' %}">Crear transaccion</a>
+    </div>
+    {% if transactions %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Tipo</th>
+                    <th>Monto</th>
+                    <th>Descripcion</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                    <tr>
+                        <td><a href="{% url 'wallet:customer_detail' transaction.customer.pk %}">{{ transaction.customer }}</a></td>
+                        <td><a href="{% url 'wallet:transaction_detail' transaction.pk %}">{{ transaction.get_transaction_type_display }}</a></td>
+                        <td>${{ transaction.amount }}</td>
+                        <td>{{ transaction.description|default:'-' }}</td>
+                        <td>{{ transaction.created_at|date:'d/m/Y H:i' }}</td>
+                        <td>
+                            <a href="{% url 'wallet:transaction_update' transaction.pk %}">Editar</a> |
+                            <a href="{% url 'wallet:transaction_delete' transaction.pk %}">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="empty">No hay transacciones registradas.</p>
+    {% endif %}
+</section>
+{% endblock %}

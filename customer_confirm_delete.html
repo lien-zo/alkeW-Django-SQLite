@@ -1,0 +1,17 @@
+{% extends 'wallet/base.html' %}
+
+{% block title %}Eliminar cliente | Alke Wallet{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 720px; margin: 0 auto;">
+    <h2>Eliminar cliente</h2>
+    <p>Se eliminara a <strong>{{ object }}</strong> y todas sus transacciones asociadas.</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="actions">
+            <button class="danger" type="submit">Confirmar eliminacion</button>
+            <a class="button" href="{% url 'wallet:customer_detail' object.pk %}">Cancelar</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

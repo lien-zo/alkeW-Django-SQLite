@@ -1,0 +1,33 @@
+{% extends 'wallet/base.html' %}
+
+{% block title %}Cliente | Alke Wallet{% endblock %}
+
+{% block content %}
+<section class="grid split">
+    <article class="card">
+        <h2>{{ customer }}</h2>
+        <p><strong>Correo:</strong> {{ customer.email }}</p>
+        <p><strong>Telefono:</strong> {{ customer.phone|default:'No informado' }}</p>
+        <p><strong>Saldo actual:</strong> ${{ customer.balance }}</p>
+        <div class="actions">
+            <a class="button" href="{% url 'wallet:customer_update' customer.pk %}">Editar cliente</a>
+            <a class="button danger" href="{% url 'wallet:customer_delete' customer.pk %}">Eliminar cliente</a>
+        </div>
+    </article>
+    <article class="card">
+        <h3>Historial de operaciones</h3>
+        {% if customer.transactions.all %}
+            <ul class="list">
+                {% for transaction in customer.transactions.all %}
+                    <li>
+                        <a href="{% url 'wallet:transaction_detail' transaction.pk %}">{{ transaction.get_transaction_type_display }}</a>
+                        por ${{ transaction.amount }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty">Este cliente aun no tiene transacciones.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}
